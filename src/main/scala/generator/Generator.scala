@@ -20,7 +20,7 @@ object  Produce {
     val B: Long = 8921
     val factorA: Long = 16807
     val factorB: Long = 48271
-    val process_amount: Int = 4000000
+    val process_amount: Int = 40000000
 
     def make(start: Long, factor: Long): Stream[Generator] = {
         def loop(s: Long): Stream[Generator] = {
