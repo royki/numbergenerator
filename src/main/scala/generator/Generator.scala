@@ -45,10 +45,15 @@ object  Produce {
 
 object Generator extends App {
 
-    val generatorA = Produce.leastSignificatBits_16(Produce.A, Produce.factorA, Produce.process_amount)
-    val generatorB = Produce.leastSignificatBits_16(Produce.B, Produce.factorB, Produce.process_amount)
-          
-    val number_of_matching_pairs = Produce.countPair(generatorA, generatorB)
+    val generatorA = Produce.generator(Produce.A, Produce.factorA, Produce.process_amount)
+    val generatorB = Produce.generator(Produce.B, Produce.factorB, Produce.process_amount)    
+    
+    // val generatorA_16 = Produce.leastSignificatBits_16(Produce.A, Produce.factorA, Produce.process_amount)
+    // val generatorB_16 = Produce.leastSignificatBits_16(Produce.B, Produce.factorB, Produce.process_amount)
+    val all_matching_pairs = generatorA.zip(generatorB).filter(i => (i._1 & 0x0000FFFFL) == (i._2 & 0x0000FFFFL))
+    all_matching_pairs.foreach(println)
+    
+    val number_of_matching_pairs = generatorA.zip(generatorB).count(i => (i._1 & 0x0000FFFFL) == (i._2 & 0x0000FFFFL))
     println(s"$number_of_matching_pairs Number of Matching Pairs are found from 2 random number generators that process ${Produce.process_amount} number")
 }
 
