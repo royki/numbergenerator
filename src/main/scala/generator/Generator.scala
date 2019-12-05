@@ -1,6 +1,5 @@
 package generator
 
-
 trait RandomNumber {
     def next: (Long, Generator)
     def factor: Long
@@ -38,23 +37,30 @@ object  Produce {
         generator(a, f, num).map(x => (x & 0x0000FFFFL))
     }
 
-    def countPair(genA: List[Long], genB: List[Long]): Int = {            
-        genA.zip(genB).count(x => x._1 == x._2)
+    def matchingPairs(genA: List[Long], genB: List[Long]): List[(Long, Long)] = {
+        genA.zip(genB).filter(x => (x._1 & 0x0000FFFFL) == (x._2 & 0x0000FFFFL))
+    }
+    
+    def countPairs(genA: List[Long], genB: List[Long]): Int = {            
+        // genA.zip(genB).count(x => x._1 == x._2)
+        genA.zip(genB).count(x => (x._1 & 0x0000FFFFL) == (x._2 & 0x0000FFFFL))
     }
 }
 
 object Generator extends App {
 
     val generatorA = Produce.generator(Produce.A, Produce.factorA, Produce.process_amount)
-    val generatorB = Produce.generator(Produce.B, Produce.factorB, Produce.process_amount)    
+    val generatorB = Produce.generator(Produce.B, Produce.factorB, Produce.process_amount)
     
-    // val generatorA_16 = Produce.leastSignificatBits_16(Produce.A, Produce.factorA, Produce.process_amount)
-    // val generatorB_16 = Produce.leastSignificatBits_16(Produce.B, Produce.factorB, Produce.process_amount)
-    val number_of_matching_pairs = generatorA.zip(generatorB).count(i => (i._1 & 0x0000FFFFL) == (i._2 & 0x0000FFFFL))
+    val number_of_matching_pairs = Produce.countPairs(generatorA, generatorB)
     println(s"$number_of_matching_pairs Number of Matching Pairs are found from 2 random number generators that process ${Produce.process_amount} number")
     
-    val all_matching_pairs = generatorA.zip(generatorB).filter(i => (i._1 & 0x0000FFFFL) == (i._2 & 0x0000FFFFL))
+    val all_matching_pairs = Produce.matchingPairs(generatorA, generatorB)
     all_matching_pairs.foreach(println)
+    println()
+    all_matching_pairs.foreach{
+        x => println(x._1.toBinaryString, x._2.toBinaryString)
+    }
    
 }
 
