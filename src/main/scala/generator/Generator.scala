@@ -57,7 +57,10 @@ object Generator extends App {
     
     val all_matching_pairs = Produce.matchingPairs(generatorA, generatorB)
     all_matching_pairs.foreach(println)
-    println()
+    println("Matching Pairs in Decimal")
+    all_matching_pairs.foreach(println)
+    println
+    println("Matching Pairs in Binary")
     all_matching_pairs.foreach{
         x => println(x._1.toBinaryString, x._2.toBinaryString)
     }
