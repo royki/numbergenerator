@@ -3,6 +3,7 @@ ThisBuild / version          := "0.1.0"
 
 Global / onChangedBuildSource := IgnoreSourceChanges
 ThisBuild / coverageEnabled := false
+Test / run / javaOptions += "-Xmx4G"
 
 watchTriggeredMessage := Watch.clearScreenOnTrigger
 
